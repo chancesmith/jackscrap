@@ -127,7 +127,6 @@ class Listing extends Component {
                 <Pickup key={pickup}>
                   <div>
                     <span className="address">{pickups[pickup].address}</span>
-                    <span className="phone">{pickups[pickup].phone}</span>
                   </div>
                   <div>
                     <span className="pickupType">{pickups[pickup].pickupType}</span>
