@@ -193,18 +193,12 @@ class Listing extends Component {
     );
     return (
       <Styles>
-        {/* <Header>
-          <Logo>
-            <img src="./images/logo.png" alt="JACKSCRAP" width="250px" />
-          </Logo>
-          <h1>Find My Pickup</h1>
-        </Header> */}
         <header>
           <Nav>
             <img src="../images/menu-btn.png" alt="menu" />
           </Nav>
           <Hero>
-            <img src="./images/report-scrap.png" alt="report scrap" />
+            <img src="./images/status-of-scrap.png" alt="status scrap" />
           </Hero>
           <Search>
             <fieldset>
