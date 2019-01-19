@@ -4,33 +4,80 @@ import {base} from '../firebase.js';
 
 // #region Styled Components
 const Styles = styled.div``;
-const Header = styled.div`
+const Nav = styled.div`
+  position: relative;
+  height: 50px;
+  background: #152241;
+  border-bottom: 10px solid #ea4647;
+  img {
+    width: 50px;
+    position: absolute;
+    top: 14px;
+    right: 5px;
+  }
+`;
+const Hero = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+  /* background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
     url(https://sh-drop.s3.us-east-1.amazonaws.com/cs/Leafpickup.jpg);
-  background-size: cover;
-  height: 40vh;
+  background-size: cover; */
+  height: 46vh;
   background-position: 100% 40%;
-  h1 {
-    color: white;
-    font-size: 5rem;
-    text-shadow: 2px 2px 2px #3a3a3a6e;
+  img {
+    width: 50%;
   }
 `;
-const Logo = styled.div`
-  position: absolute;
-  top: -10px;
-  color: white;
-  font-size: 2rem;
-  font-family: 'Authority-Rounded';
-`;
+// const Header = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+//     url(https://sh-drop.s3.us-east-1.amazonaws.com/cs/Leafpickup.jpg);
+//   background-size: cover;
+//   height: 40vh;
+//   background-position: 100% 40%;
+//   h1 {
+//     color: white;
+//     font-size: 5rem;
+//     text-shadow: 2px 2px 2px #3a3a3a6e;
+//   }
+// `;
+// const Logo = styled.div`
+//   position: absolute;
+//   top: -10px;
+//   color: white;
+//   font-size: 2rem;
+//   font-family: 'Authority-Rounded';
+// `;
 const Search = styled.div`
-  input {
-    width: 19rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  fieldset {
+    border: 0;
+    display: flex;
+    flex-direction: column;
+    label {
+      padding: 0 0 20px 0;
+      color: #ea4647;
+      input {
+        width: 25rem;
+      }
+    }
+    span {
+      display: flex;
+      flex-direction: column;
+      padding: 0 0 8px 0;
+    }
   }
+  /* input {
+    width: 19rem;
+  } */
 `;
 const NoMatches = styled.div`
   margin: 30px 0 0 0;
@@ -62,13 +109,20 @@ const PickupWrap = styled.div`
   }
 `;
 const Pickup = styled.li`
-  border: 1px solid #eee;
+  /* border: 1px solid #eee; */
   margin: 17px 0;
   width: 500px;
   display: flex;
   padding: 1.2em;
+  background: #fff;
+  border-radius: 5px;
+  font-family: 'GothamCond-BlackItalic';
+  text-transform: italic;
+  color: #152241;
+  justify-content: space-between;
   div {
-    flex: 1;
+    /* flex: 1; */
+
     &:first-of-type {
       flex: 2;
     }
@@ -78,6 +132,15 @@ const Pickup = styled.li`
     width: 75%;
     &.address {
       font-size: 1.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    &.date,
+    &.pickupType {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #b3b3b3;
     }
   }
 `;
@@ -108,6 +171,21 @@ class Listing extends Component {
     this.setState({searchInput: val});
   };
 
+  getIcon = text => {
+    if (text === 'leaves') {
+      return <img src="../images/icons/leaves.png" alt="yard" width="75px" />;
+    }
+    if (text === 'yard debris') {
+      return <img src="../images/icons/yard-debris.png" alt="yard" width="75px" />;
+    }
+    if (text === 'donation') {
+      return <img src="../images/icons/donation.png" alt="yard" width="75px" />;
+    }
+    if (text === 'oversized trash') {
+      return <img src="../images/icons/oversized-trash.png" alt="yard" width="75px" />;
+    }
+  };
+
   render() {
     const {pickups, searchInput} = this.state;
     const filteredResults = Object.keys(pickups).filter(pickup =>
@@ -115,15 +193,28 @@ class Listing extends Component {
     );
     return (
       <Styles>
-        <Header>
+        {/* <Header>
           <Logo>
             <img src="./images/logo.png" alt="JACKSCRAP" width="250px" />
           </Logo>
           <h1>Find My Pickup</h1>
+        </Header> */}
+        <header>
+          <Nav>
+            <img src="../images/menu-btn.png" alt="menu" />
+          </Nav>
+          <Hero>
+            <img src="./images/report-scrap.png" alt="report scrap" />
+          </Hero>
           <Search>
-            <input type="text" placeholder="search address" onChange={e => this.handleSearch(e.target.value)} />
+            <fieldset>
+              <label>
+                <span>Search address</span>
+                <input type="text" onChange={e => this.handleSearch(e.target.value)} />
+              </label>
+            </fieldset>
           </Search>
-        </Header>
+        </header>
         <PickupWrap>
           <ul>
             {filteredResults.length > 0 ? (
@@ -131,13 +222,12 @@ class Listing extends Component {
                 <Pickup key={pickup}>
                   <div>
                     <span className="address">{pickups[pickup].address}</span>
-                  </div>
-                  <div>
-                    <span className="pickupType">{pickups[pickup].pickupType}</span>
                     <span className="date">
-                      Added: {pickups[pickup].created_at.substring(0, pickups[pickup].created_at.indexOf(' '))}
+                      Date added: {pickups[pickup].created_at.substring(0, pickups[pickup].created_at.indexOf(' '))}
                     </span>
+                    <span className="pickupType">{pickups[pickup].pickupType}</span>
                   </div>
+                  <div>{this.getIcon(pickups[pickup].pickupType.toLowerCase())}</div>
                 </Pickup>
               ))
             ) : (
