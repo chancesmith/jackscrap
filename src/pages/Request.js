@@ -8,6 +8,32 @@ import Button from '../components/styles/Button';
 
 // #region Styled Components
 const Styles = styled.div``;
+const Nav = styled.div`
+  position: relative;
+  height: 50px;
+  background: #152241;
+  border-bottom: 10px solid #ea4647;
+  img {
+    width: 50px;
+    position: absolute;
+    top: 14px;
+    right: 5px;
+  }
+`;
+const Hero = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+    url(https://sh-drop.s3.us-east-1.amazonaws.com/cs/Leafpickup.jpg);
+  background-size: cover; */
+  height: 46vh;
+  background-position: 100% 40%;
+  img {
+    width: 50%;
+  }
+`;
 const Header = styled.div`
   display: flex;
   flex-direction: column;
@@ -156,12 +182,14 @@ class Listing extends Component {
     const {address, zipcode, phone, pickupType, pickupSize, showPickupMenu} = this.state;
     return (
       <Styles>
-        <Header>
-          <Logo>
-            <img src="./images/logo.png" alt="JACKSCRAP" width="250px" />
-          </Logo>
-          <h1>Give us your trash</h1>
-        </Header>
+        <header>
+          <Nav>
+            <img src="../images/menu-btn.png" alt="menu" />
+          </Nav>
+          <Hero>
+            <img src="./images/report-scrap.png" alt="report scrap" />
+          </Hero>
+        </header>
         <RequestWrap>
           <form
             action="#"
