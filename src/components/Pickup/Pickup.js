@@ -2,9 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import MapContainer from '../Maps/MapContainer';
 
-// components
-import Button from '../styles/Button';
-
 const PickupWrap = styled.li`
   border: 1px solid #eee;
   margin: 17px 0;
@@ -23,15 +20,6 @@ const PickupWrap = styled.li`
     &.address {
       font-size: 1.5rem;
     }
-  }
-`;
-
-const MarkComplete = styled(Button)`
-  button {
-    font-size: 2.5rem;
-    width: 100%;
-    padding: 1.1rem 1rem;
-    background: ${props => (props.doubleCheckPickup ? 'SteelBlue' : null)};
   }
 `;
 
@@ -66,11 +54,6 @@ class Pickup extends React.Component {
             <span className="date">Added: {pickup.created_at.substring(0, pickup.created_at.indexOf(' '))}</span>
           </div>
         </PickupWrap>
-        <MarkComplete doubleCheckPickup={doubleCheckPickup}>
-          <button type="button" onClick={() => markPickupComplete(id)}>
-            {doubleCheckPickup ? 'Pickup complete?' : 'Pickup'}
-          </button>
-        </MarkComplete>
       </div>
     );
   }
