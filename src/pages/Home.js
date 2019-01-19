@@ -9,7 +9,7 @@ const Header = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+  background: linear-gradient(rgba(243, 226, 189, 0.5), rgba(183, 142, 66, 0.5)),
     url(https://sh-drop.s3.us-east-1.amazonaws.com/cs/Leafpickup.jpg);
   background-size: cover;
   height: 40vh;
@@ -19,6 +19,11 @@ const Header = styled.div`
     font-size: 5rem;
     text-shadow: 2px 2px 2px #3a3a3a6e;
   }
+`;
+const Logo = styled.div`
+  color: white;
+  font-size: 2rem;
+  font-family: 'Authority-Rounded';
 `;
 const Search = styled.div`
   input {
@@ -98,13 +103,13 @@ class Home extends Component {
 
   render() {
     const {pickups, searchInput} = this.state;
-    console.log(this.state.pickups);
     const filteredResults = Object.keys(pickups).filter(pickup =>
       pickups[pickup].address.match(new RegExp(`${searchInput}`, 'gi')),
     );
     return (
       <Styles>
         <Header>
+          <Logo>JACKSCRAP</Logo>
           <h1>Find My Pickup</h1>
           <Search>
             <input type="text" placeholder="search address" onChange={e => this.handleSearch(e.target.value)} />

@@ -1,13 +1,24 @@
 import React, {Component} from 'react';
 import styled, {ThemeProvider, createGlobalStyle} from 'styled-components';
-import defaultTheme from './theme.js';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 // views
 import Home from './pages/Home';
+import Driver from './pages/Driver';
+
+// components
+import defaultTheme from './theme.js';
 
 const Styles = styled.div``;
 
 const GlobalStyle = createGlobalStyle`
+  @font-face {
+    font-family: 'Authority-Rounded';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/Authority-Rounded.otf');
+  }
+
   body {
     font-family: sans-serif;
     font-size: 14px;
@@ -45,12 +56,17 @@ const GlobalStyle = createGlobalStyle`
 class App extends Component {
   render() {
     return (
-      <ThemeProvider theme={defaultTheme}>
-        <Styles>
-          <GlobalStyle />
-          <Home />
-        </Styles>
-      </ThemeProvider>
+      <Router>
+        <ThemeProvider theme={defaultTheme}>
+          <Styles>
+            <GlobalStyle />
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/driver" component={Driver} />
+            </Switch>
+          </Styles>
+        </ThemeProvider>
+      </Router>
     );
   }
 }
