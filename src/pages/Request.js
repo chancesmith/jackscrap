@@ -59,22 +59,46 @@ class Listing extends Component {
     phone: '',
     pickupType: '',
     pickupSize: '',
+    pickups: [],
   };
 
-  // componentDidMount() {
-  //   this.pickupsRef = base.syncState('jackson', {
-  //     context: this,
-  //     state: 'pickups',
-  //     queries: {
-  //       orderByChild: 'pickupComplete',
-  //       equalTo: false,
-  //     },
-  //   });
-  // }
+  componentDidMount() {
+    // this.pickupsRef = base.syncState('jackson', {
+    //   context: this,
+    //   state: 'pickups',
+    //   queries: {
+    //     orderByChild: 'pickupComplete',
+    //     equalTo: false,
+    //   },
+    // });
+  }
 
-  // componentWillUnmount() {
-  //   base.removeBinding(this.pickupsRef);
-  // }
+  componentWillUnmount() {
+    // base.removeBinding(this.pickupsRef);
+  }
+
+  addRequest = () => {
+    const {address, zipcode, phone, pickupType, pickupSize} = this.state;
+    const immediatelyAvailableReference = base
+      .push('jackson', {
+        data: {created_at: new Date(), address, zip: zipcode, phone, pickupType, pickupSize, pickupComplete: false},
+      })
+      .then(newLocation => {
+        const generatedKey = newLocation.key;
+        this.setState({
+          address: '',
+          zipcode: '',
+          phone: '',
+          pickupType: '',
+          pickupSize: '',
+        });
+      })
+      .catch(err => {
+        // handle error
+      });
+    // available immediately, you don't have to wait for the Promise to resolve
+    const generatedKey = immediatelyAvailableReference.key;
+  };
 
   handleChange = (val, stateItem) => {
     this.setState({[stateItem]: val});
@@ -94,27 +118,53 @@ class Listing extends Component {
             onSubmit={e => {
               e.preventDefault();
               console.log('form submit');
+              this.addRequest();
             }}>
             <fieldset>
               <label>
                 <span>Address:</span>
-                <input type="text" value={address} onChange={e => this.handleChange(e.target.value, 'address')} />
+                <input
+                  type="text"
+                  placeholder="address"
+                  value={address}
+                  onChange={e => this.handleChange(e.target.value, 'address')}
+                />
               </label>
               <label>
                 <span>Zipcode:</span>
-                <input type="text" value={zipcode} onChange={e => this.handleChange(e.target.value, 'zipcode')} />
+                <input
+                  type="text"
+                  placeholder="zipcode"
+                  value={zipcode}
+                  onChange={e => this.handleChange(e.target.value, 'zipcode')}
+                />
               </label>
               <label>
                 <span>Phone Number:</span>
-                <input type="text" value={phone} onChange={e => this.handleChange(e.target.value, 'phone')} />
+                <input
+                  type="text"
+                  placeholder="phone"
+                  value={phone}
+                  onChange={e => this.handleChange(e.target.value, 'phone')}
+                />
               </label>
               <label>
                 <span>Pickup Type:</span>
-                <input type="text" value={pickupType} onChange={e => this.handleChange(e.target.value, 'pickupType')} />
+                <input
+                  type="text"
+                  placeholder="pickup type"
+                  value={pickupType}
+                  onChange={e => this.handleChange(e.target.value, 'pickupType')}
+                />
               </label>
               <label>
                 <span>Pickup Size:</span>
-                <input type="text" value={pickupSize} onChange={e => this.handleChange(e.target.value, 'pickupSize')} />
+                <input
+                  type="text"
+                  placeholder="pickup size"
+                  value={pickupSize}
+                  onChange={e => this.handleChange(e.target.value, 'pickupSize')}
+                />
               </label>
               <Button>
                 <input type="submit" value="Send Request" />
