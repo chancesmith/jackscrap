@@ -39,6 +39,7 @@ const GlobalStyle = createGlobalStyle`
     text-transform: italic;
     font-size: 1.3rem;
     letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
   h1,h2,h3,h4,h5 {
     font-family: 'Authority-Rounded';
