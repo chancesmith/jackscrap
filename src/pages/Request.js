@@ -57,9 +57,10 @@ const DropdownMenuTrigger = styled.div`
   button {
     background: #eee;
     color: #333;
-    font-size: 1.3em;
+    font-size: 1.1em;
     text-align: left;
     width: 100%;
+    font-family: sans-serif;
   }
 `;
 const MenuWrap = styled.div`
@@ -73,11 +74,13 @@ const DropdownMenu = styled.div`
   width: ${props => props.width}px;
   button {
     margin: 0;
+    border-radius: 0;
     border-bottom: 1px solid #333;
     background: #c9c9c9;
     color: #333;
-    font-size: 1.3em;
+    font-size: 1.1em;
     text-align: left;
+    font-family: sans-serif;
     width: 100%;
   }
 `;
