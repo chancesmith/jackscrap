@@ -90,6 +90,10 @@ class Home extends Component {
     this.pickupsRef = base.syncState('jackson', {
       context: this,
       state: 'pickups',
+      queries: {
+        orderByChild: 'pickupComplete',
+        equalTo: false,
+      },
     });
   }
 
@@ -134,7 +138,9 @@ class Home extends Component {
               ))
             ) : (
               <NoMatches>
-                <p>No results matched: '{searchInput}' 😞</p>
+                <p>
+                  No results matched: '{searchInput}' <span>😞</span>
+                </p>
                 <a href="#">Request a Pickup</a>
               </NoMatches>
             )}

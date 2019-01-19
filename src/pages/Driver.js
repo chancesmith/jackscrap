@@ -96,7 +96,9 @@ class Driver extends Component {
                 ))
             ) : (
               <NoMatches>
-                <p>No more pickups! 👏</p>
+                <p>
+                  No more pickups! <span>👏</span>
+                </p>
               </NoMatches>
             )}
           </ul>
