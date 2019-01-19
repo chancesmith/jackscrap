@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
+import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import {base} from '../firebase.js';
 
 // components
-import Button from '../components/styles/Button';
+import MapContainer from '../components/Maps/MapContainer';
+import Pickup from '../components/Pickup/Pickup';
+import {timingSafeEqual} from 'crypto';
 
 // #region Styled Components
 const Styles = styled.div``;
@@ -36,40 +39,12 @@ const PickupWrap = styled.div`
     list-style: none;
   }
 `;
-const Pickup = styled.li`
-  border: 1px solid #eee;
-  margin: 17px 0;
-  width: 500px;
-  display: flex;
-  padding: 1.2em;
-  div {
-    flex: 1;
-    &:first-of-type {
-      flex: 2;
-    }
-  }
-  span {
-    display: block;
-    width: 75%;
-    &.address {
-      font-size: 1.5rem;
-    }
-  }
-`;
-const MarkComplete = styled(Button)`
-  button {
-    font-size: 2.5rem;
-    width: 100%;
-    padding: 1.1rem 1rem;
-    background: ${props => (props.doubleCheckPickup ? 'SteelBlue' : null)};
-  }
-`;
 // #endregion
 
 class Driver extends Component {
   state = {
-    doubleCheckPickup: false,
     pickups: [],
+    coordsLoaded: false,
   };
 
   componentDidMount() {
@@ -99,34 +74,34 @@ class Driver extends Component {
     }
   };
 
+  // codeAddress = address => {
+  //   const {google} = this.props;
+  //   const geocoder = new google.maps.Geocoder();
+  //   geocoder.geocode({address}, (results, status) => {
+  //     if (status == 'OK') {
+  //       this.setState({coordsLoaded: true});
+  //       return {lat: results[0].geometry.location.lat(), long: results[0].geometry.location.lng()};
+  //     } else {
+  //       console.log(`Geocode was not successful for the following reason: ${status}`);
+  //     }
+  //   });
+  // };
+
   render() {
-    const {pickups, doubleCheckPickup} = this.state;
+    const {pickups, coordsLoaded} = this.state;
 
     return (
       <Styles>
         <PickupWrap>
           <ul>
             {Object.keys(pickups).length > 0 ? (
-              Object.keys(pickups).map(pickup => (
-                <>
-                  <Pickup key={pickup}>
-                    <div>
-                      <span className="address">{pickups[pickup].address}</span>
-                      <span className="phone">{pickups[pickup].phone}</span>
-                    </div>
-                    <div>
-                      <span className="pickupType">{pickups[pickup].pickupType}</span>
-                      <span className="date">
-                        Added: {pickups[pickup].created_at.substring(0, pickups[pickup].created_at.indexOf(' '))}
-                      </span>
-                    </div>
-                  </Pickup>
-                  <MarkComplete doubleCheckPickup={doubleCheckPickup}>
-                    <button type="button" onClick={() => this.markPickupComplete(Object.keys(pickups)[0])}>
-                      {doubleCheckPickup ? 'Pickup complete?' : 'Pickup'}
-                    </button>
-                  </MarkComplete>
-                </>
+              Object.keys(pickups).map((pickup, i) => (
+                <Pickup
+                  markPickupComplete={this.markPickupComplete}
+                  pickup={pickups[pickup]}
+                  id={pickup}
+                  coordsLoaded={coordsLoaded}
+                />
               ))
             ) : (
               <NoMatches>
