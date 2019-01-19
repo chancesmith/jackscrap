@@ -1,6 +1,8 @@
 import styled from 'styled-components';
+
 const Button = styled.div`
-  button {
+  button,
+  input {
     display: block;
     margin: 15px 0 0 0;
     padding: 12px 15px;

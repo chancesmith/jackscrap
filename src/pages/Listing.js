@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {base} from '../firebase.js';
 import styled from 'styled-components';
+import {base} from '../firebase.js';
 
 // #region Styled Components
 const Styles = styled.div``;
@@ -81,11 +81,12 @@ const Pickup = styled.li`
 `;
 // #endregion
 
-class Home extends Component {
+class Listing extends Component {
   state = {
     searchInput: '',
     pickups: [],
   };
+
   componentDidMount() {
     this.pickupsRef = base.syncState('jackson', {
       context: this,
@@ -139,7 +140,10 @@ class Home extends Component {
             ) : (
               <NoMatches>
                 <p>
-                  No results matched: '{searchInput}' <span>😞</span>
+                  No results matched: '{searchInput}'{' '}
+                  <span role="img" aria-label="sad emoji">
+                    😞
+                  </span>
                 </p>
                 <a href="#">Request a Pickup</a>
               </NoMatches>
@@ -151,4 +155,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default Listing;

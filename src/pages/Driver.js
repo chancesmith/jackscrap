@@ -93,7 +93,7 @@ class Driver extends Component {
     if (doubleCheckPickup) {
       const newPickups = {...pickups};
       newPickups[id] = {...newPickups[id], pickupComplete: true};
-      this.setState({pickups: newPickups});
+      this.setState({pickups: newPickups, doubleCheckPickup: false});
     } else {
       this.setState({doubleCheckPickup: true});
     }

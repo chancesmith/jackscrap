@@ -3,11 +3,12 @@ import styled, {ThemeProvider, createGlobalStyle} from 'styled-components';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 // views
-import Home from './pages/Home';
 import Driver from './pages/Driver';
+import Listing from './pages/Listing';
+import Request from './pages/Request';
 
 // components
-import defaultTheme from './theme.js';
+import defaultTheme from './theme';
 
 const Styles = styled.div``;
 
@@ -64,7 +65,8 @@ class App extends Component {
           <Styles>
             <GlobalStyle />
             <Switch>
-              <Route exact path="/" component={Home} />
+              <Route exact path="/" component={Request} />
+              <Route exact path="/listing" component={Listing} />
               <Route path="/driver" component={Driver} />
             </Switch>
           </Styles>
