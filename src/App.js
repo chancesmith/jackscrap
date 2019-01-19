@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 // views
 import Driver from './pages/Driver';
+import Home from './pages/Home';
 import Listing from './pages/Listing';
 import Request from './pages/Request';
 
@@ -78,7 +79,8 @@ class App extends Component {
           <Styles>
             <GlobalStyle />
             <Switch>
-              <Route exact path="/" component={Request} />
+              <Route exact path="/" component={Home} />
+              <Route exact path="/request" component={Request} />
               <Route exact path="/listing" component={Listing} />
               <Route path="/driver" component={Driver} />
             </Switch>

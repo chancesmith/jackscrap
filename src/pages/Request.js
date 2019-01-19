@@ -13,7 +13,7 @@ const Header = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(rgba(243, 226, 189, 0.5), rgba(183, 142, 66, 0.5)),
+  background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
     url(https://sh-drop.s3.us-east-1.amazonaws.com/cs/Leafpickup.jpg);
   background-size: cover;
   height: 40vh;
@@ -25,6 +25,8 @@ const Header = styled.div`
   }
 `;
 const Logo = styled.div`
+  position: absolute;
+  top: -10px;
   color: white;
   font-size: 2rem;
   font-family: 'Authority-Rounded';
@@ -155,7 +157,9 @@ class Listing extends Component {
     return (
       <Styles>
         <Header>
-          <Logo>JACKSCRAP</Logo>
+          <Logo>
+            <img src="./images/logo.png" alt="JACKSCRAP" width="250px" />
+          </Logo>
           <h1>Give us your trash</h1>
         </Header>
         <RequestWrap>
