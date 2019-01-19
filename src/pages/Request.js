@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import {base} from '../firebase.js';
+import moment from 'moment';
+import {base} from '../firebase';
 
 // components
 import Button from '../components/styles/Button';
@@ -29,7 +30,7 @@ const Logo = styled.div`
   font-family: 'Authority-Rounded';
 `;
 const RequestWrap = styled.div`
-  margin: 30px 0 0 0;
+  margin: 30px 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,6 +40,7 @@ const RequestWrap = styled.div`
     flex-direction: column;
     label {
       padding: 0 0 20px 0;
+      color: #ea4647;
       input {
         width: 25rem;
       }
@@ -50,6 +52,35 @@ const RequestWrap = styled.div`
     }
   }
 `;
+const Dropdown = styled.div``;
+const DropdownMenuTrigger = styled.div`
+  button {
+    background: #eee;
+    color: #333;
+    font-size: 1.3em;
+    text-align: left;
+    width: 100%;
+  }
+`;
+const MenuWrap = styled.div`
+  background: #eee;
+`;
+const DropdownMenu = styled.div`
+  height: 0;
+  overflow: visible;
+  position: relative;
+  z-index: 2;
+  width: ${props => props.width}px;
+  button {
+    margin: 0;
+    border-bottom: 1px solid #333;
+    background: #c9c9c9;
+    color: #333;
+    font-size: 1.3em;
+    text-align: left;
+    width: 100%;
+  }
+`;
 // #endregion
 
 class Listing extends Component {
@@ -59,29 +90,22 @@ class Listing extends Component {
     phone: '',
     pickupType: '',
     pickupSize: '',
-    pickups: [],
+    showPickupMenu: false,
   };
-
-  componentDidMount() {
-    // this.pickupsRef = base.syncState('jackson', {
-    //   context: this,
-    //   state: 'pickups',
-    //   queries: {
-    //     orderByChild: 'pickupComplete',
-    //     equalTo: false,
-    //   },
-    // });
-  }
-
-  componentWillUnmount() {
-    // base.removeBinding(this.pickupsRef);
-  }
 
   addRequest = () => {
     const {address, zipcode, phone, pickupType, pickupSize} = this.state;
     const immediatelyAvailableReference = base
       .push('jackson', {
-        data: {created_at: new Date(), address, zip: zipcode, phone, pickupType, pickupSize, pickupComplete: false},
+        data: {
+          created_at: moment().format('M/D/YYYY h:mm:ss'),
+          address,
+          zip: zipcode,
+          phone,
+          pickupType,
+          pickupSize,
+          pickupComplete: false,
+        },
       })
       .then(newLocation => {
         const generatedKey = newLocation.key;
@@ -101,11 +125,30 @@ class Listing extends Component {
   };
 
   handleChange = (val, stateItem) => {
-    this.setState({[stateItem]: val});
+    this.setState({[stateItem]: val, showPickupMenu: false});
+  };
+
+  showPickupMenu = event => {
+    event.preventDefault();
+
+    this.setState({showPickupMenu: true}, () => {
+      document.addEventListener('click', this.closePickupMenu);
+    });
+  };
+
+  closePickupMenu = event => {
+    const {showPickupMenu} = this.state;
+    if (showPickupMenu) {
+      if (!this.dropdownMenu.contains(event.target)) {
+        this.setState({showPickupMenu: false}, () => {
+          document.removeEventListener('click', this.closePickupMenu);
+        });
+      }
+    }
   };
 
   render() {
-    const {address, zipcode, phone, pickupType, pickupSize} = this.state;
+    const {address, zipcode, phone, pickupType, pickupSize, showPickupMenu} = this.state;
     return (
       <Styles>
         <Header>
@@ -150,12 +193,49 @@ class Listing extends Component {
               </label>
               <label>
                 <span>Pickup Type:</span>
-                <input
-                  type="text"
-                  placeholder="pickup type"
-                  value={pickupType}
-                  onChange={e => this.handleChange(e.target.value, 'pickupType')}
-                />
+                <Dropdown>
+                  <DropdownMenuTrigger
+                    ref={element => {
+                      this.dropdownMenuTrigger = element;
+                    }}>
+                    <Button>
+                      <button type="button" onClick={this.showPickupMenu}>
+                        {pickupType !== '' ? pickupType : 'select pickup type'}
+                      </button>
+                    </Button>
+                  </DropdownMenuTrigger>
+
+                  {showPickupMenu ? (
+                    <DropdownMenu
+                      ref={element => {
+                        this.dropdownMenu = element;
+                      }}
+                      width={this.dropdownMenuTrigger.offsetWidth}>
+                      <MenuWrap>
+                        <Button>
+                          <button type="button" onClick={() => this.handleChange('Leaves', 'pickupType')}>
+                            Leaves
+                          </button>
+                        </Button>
+                        <Button>
+                          <button type="button" onClick={() => this.handleChange('Yard Debris', 'pickupType')}>
+                            Yard Debris
+                          </button>
+                        </Button>
+                        <Button>
+                          <button type="button" onClick={() => this.handleChange('Oversized Trash', 'pickupType')}>
+                            Oversized Trash
+                          </button>
+                        </Button>
+                        <Button>
+                          <button type="button" onClick={() => this.handleChange('Donation', 'pickupType')}>
+                            Donation
+                          </button>
+                        </Button>
+                      </MenuWrap>
+                    </DropdownMenu>
+                  ) : null}
+                </Dropdown>
               </label>
               <label>
                 <span>Pickup Size:</span>

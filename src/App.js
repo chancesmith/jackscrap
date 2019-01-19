@@ -19,12 +19,25 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 400;
     src: url('../fonts/Authority-Rounded.otf');
   }
+  @font-face {
+    font-family: 'GothamCond-BlackItalic';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/GothamCond-BlackItalic.otf');
+  }
 
   body {
     font-family: sans-serif;
     font-size: 14px;
     padding: 0;
     margin: 0;
+    background: #EAEBE2;
+  }
+  label {
+    font-family: 'GothamCond-BlackItalic';
+    text-transform: italic;
+    font-size: 1.3rem;
+    letter-spacing: 0.1em;
   }
   h1,h2,h3,h4,h5 {
     font-family: 'Authority-Rounded';
@@ -36,7 +49,7 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1.8rem;
   }
   a {
-    color: teal;
+    color: ${props => props.theme.gray};
     cursor: pointer;
   }
   button {
@@ -51,7 +64,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 1.1rem 1.2rem;
     font-size: 1.1rem;
     &:focus {
-      border: 2px solid teal;
+      border: 2px solid ${props => props.theme.gray};
     }
   }
 
