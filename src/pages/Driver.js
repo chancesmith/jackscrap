@@ -7,6 +7,7 @@ import {base} from '../firebase.js';
 import MapContainer from '../components/Maps/MapContainer';
 import Pickup from '../components/Pickup/Pickup';
 import {timingSafeEqual} from 'crypto';
+import Button from '../components/styles/Button';
 
 // #region Styled Components
 const Styles = styled.div``;
@@ -37,6 +38,15 @@ const PickupWrap = styled.div`
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+`;
+
+const MarkComplete = styled(Button)`
+  button {
+    font-size: 2.5rem;
+    width: 100%;
+    padding: 1.1rem 1rem;
+    background: ${props => (props.doubleCheckPickup ? 'SteelBlue' : null)};
   }
 `;
 // #endregion
@@ -88,7 +98,7 @@ class Driver extends Component {
   // };
 
   render() {
-    const {pickups, coordsLoaded} = this.state;
+    const {pickups, coordsLoaded, doubleCheckPickup} = this.state;
 
     return (
       <Styles>
@@ -96,12 +106,15 @@ class Driver extends Component {
           <ul>
             {Object.keys(pickups).length > 0 ? (
               Object.keys(pickups).map((pickup, i) => (
-                <Pickup
-                  markPickupComplete={this.markPickupComplete}
-                  pickup={pickups[pickup]}
-                  id={pickup}
-                  coordsLoaded={coordsLoaded}
-                />
+                <div>
+                  <Pickup pickup={pickups[pickup]} id={pickup} coordsLoaded={coordsLoaded} />
+
+                  <MarkComplete doubleCheckPickup={doubleCheckPickup}>
+                    <button type="button" onClick={() => this.markPickupComplete(pickup)}>
+                      {doubleCheckPickup ? 'Pickup complete?' : 'Pickup'}
+                    </button>
+                  </MarkComplete>
+                </div>
               ))
             ) : (
               <NoMatches>
