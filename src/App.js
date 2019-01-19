@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { base } from "./firebase.js";
+import React, {Component} from 'react';
+import {base} from './firebase.js';
 
 class App extends Component {
   state = {
-    pickups: []
+    pickups: [],
   };
   componentDidMount() {
-    this.pickupsRef = base.syncState("jackson", {
+    this.pickupsRef = base.syncState('jackson', {
       context: this,
-      state: "pickups"
+      state: 'pickups',
     });
   }
 
@@ -17,7 +17,7 @@ class App extends Component {
   }
 
   render() {
-    const { pickups } = this.state;
+    const {pickups} = this.state;
     console.log(this.state.pickups);
     return (
       <ul>
