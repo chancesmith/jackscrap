@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {base} from '../firebase.js';
 import styled from 'styled-components';
 
+// components
+import Button from '../components/styles/Button';
+
 // #region Styled Components
 const Styles = styled.div``;
 const NoMatches = styled.div`
@@ -53,16 +56,30 @@ const Pickup = styled.li`
     }
   }
 `;
+const MarkComplete = styled(Button)`
+  button {
+    font-size: 2.5rem;
+    width: 100%;
+    padding: 1.1rem 1rem;
+    background: ${props => (props.doubleCheckPickup ? 'SteelBlue' : null)};
+  }
+`;
 // #endregion
 
 class Driver extends Component {
   state = {
+    doubleCheckPickup: false,
     pickups: [],
   };
   componentDidMount() {
     this.pickupsRef = base.syncState('jackson', {
       context: this,
       state: 'pickups',
+      queries: {
+        orderByChild: 'pickupComplete',
+        equalTo: false,
+        limitToFirst: 1,
+      },
     });
   }
 
@@ -70,17 +87,27 @@ class Driver extends Component {
     base.removeBinding(this.pickupsRef);
   }
 
+  markPickupComplete = id => {
+    const {doubleCheckPickup} = this.state;
+    if (doubleCheckPickup) {
+      const pickups = {...this.state.pickups};
+      pickups[id] = {...pickups[id], pickupComplete: true};
+      this.setState({pickups});
+    } else {
+      this.setState({doubleCheckPickup: true});
+    }
+  };
+
   render() {
-    const {pickups} = this.state;
+    const {pickups, doubleCheckPickup} = this.state;
 
     return (
       <Styles>
         <PickupWrap>
           <ul>
             {Object.keys(pickups).length > 0 ? (
-              Object.keys(pickups)
-                .splice(0, 1)
-                .map(pickup => (
+              Object.keys(pickups).map(pickup => (
+                <>
                   <Pickup key={pickup}>
                     <div>
                       <span className="address">{pickups[pickup].address}</span>
@@ -93,7 +120,13 @@ class Driver extends Component {
                       </span>
                     </div>
                   </Pickup>
-                ))
+                  <MarkComplete doubleCheckPickup={doubleCheckPickup}>
+                    <button onClick={() => this.markPickupComplete(Object.keys(pickups)[0])}>
+                      {doubleCheckPickup ? 'Pickup complete?' : 'Pickup'}
+                    </button>
+                  </MarkComplete>
+                </>
+              ))
             ) : (
               <NoMatches>
                 <p>
