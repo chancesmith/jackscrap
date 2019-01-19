@@ -25,6 +25,9 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     margin: 0;
   }
+  h1,h2,h3,h4,h5 {
+    font-family: 'Authority-Rounded';
+  }
   h1 {
     font-size: 3rem;
   }
