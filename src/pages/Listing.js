@@ -9,7 +9,7 @@ const Header = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(rgba(243, 226, 189, 0.5), rgba(183, 142, 66, 0.5)),
+  background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
     url(https://sh-drop.s3.us-east-1.amazonaws.com/cs/Leafpickup.jpg);
   background-size: cover;
   height: 40vh;
@@ -21,6 +21,8 @@ const Header = styled.div`
   }
 `;
 const Logo = styled.div`
+  position: absolute;
+  top: -10px;
   color: white;
   font-size: 2rem;
   font-family: 'Authority-Rounded';
@@ -39,7 +41,7 @@ const NoMatches = styled.div`
     display: block;
     margin: 15px 0 0 0;
     padding: 12px 15px;
-    background: teal;
+    background: ${props => props.theme.gray};
     color: #fff;
     text-decoration: none;
     &:hover {
@@ -114,7 +116,9 @@ class Listing extends Component {
     return (
       <Styles>
         <Header>
-          <Logo>JACKSCRAP</Logo>
+          <Logo>
+            <img src="./images/logo.png" alt="JACKSCRAP" width="250px" />
+          </Logo>
           <h1>Find My Pickup</h1>
           <Search>
             <input type="text" placeholder="search address" onChange={e => this.handleSearch(e.target.value)} />
@@ -127,7 +131,6 @@ class Listing extends Component {
                 <Pickup key={pickup}>
                   <div>
                     <span className="address">{pickups[pickup].address}</span>
-                    <span className="phone">{pickups[pickup].phone}</span>
                   </div>
                   <div>
                     <span className="pickupType">{pickups[pickup].pickupType}</span>

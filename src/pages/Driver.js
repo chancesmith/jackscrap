@@ -19,7 +19,7 @@ const NoMatches = styled.div`
     display: block;
     margin: 15px 0 0 0;
     padding: 12px 15px;
-    background: teal;
+    background: ${props => props.theme.gray};
     color: #fff;
     text-decoration: none;
     &:hover {
