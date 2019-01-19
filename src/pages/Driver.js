@@ -46,7 +46,7 @@ const MarkComplete = styled(Button)`
     font-size: 2.5rem;
     width: 100%;
     padding: 1.1rem 1rem;
-    background: ${props => (props.doubleCheckPickup ? 'SteelBlue' : null)};
+    background: ${props => (props.doubleCheckPickup ? '#ea4647' : null)};
   }
 `;
 // #endregion
@@ -111,7 +111,7 @@ class Driver extends Component {
 
                   <MarkComplete doubleCheckPickup={doubleCheckPickup}>
                     <button type="button" onClick={() => this.markPickupComplete(pickup)}>
-                      {doubleCheckPickup ? 'Pickup complete?' : 'Pickup'}
+                      {doubleCheckPickup ? 'Pickup complete?' : 'Picked up'}
                     </button>
                   </MarkComplete>
                 </div>
