@@ -54,6 +54,7 @@ const Hero = styled.div`
 //   font-family: 'Authority-Rounded';
 // `;
 const Search = styled.div`
+  margin-top: 70px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -173,16 +174,16 @@ class Listing extends Component {
 
   getIcon = text => {
     if (text === 'leaves') {
-      return <img src="../images/icons/leaves.png" alt="yard" width="75px" />;
+      return <img src="./images/icons/leaves.png" alt="yard" width="75px" />;
     }
     if (text === 'yard debris') {
-      return <img src="../images/icons/yard-debris.png" alt="yard" width="75px" />;
+      return <img src="./images/icons/yard-debris.png" alt="yard" width="75px" />;
     }
     if (text === 'donation') {
-      return <img src="../images/icons/donation.png" alt="yard" width="75px" />;
+      return <img src="./images/icons/donation.png" alt="yard" width="75px" />;
     }
     if (text === 'oversized trash') {
-      return <img src="../images/icons/oversized-trash.png" alt="yard" width="75px" />;
+      return <img src="./images/icons/oversized-trash.png" alt="yard" width="75px" />;
     }
   };
 
