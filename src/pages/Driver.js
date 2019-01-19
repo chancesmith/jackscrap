@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {base} from '../firebase.js';
 import styled from 'styled-components';
+import {base} from '../firebase.js';
 
 // components
 import Button from '../components/styles/Button';
@@ -71,6 +71,7 @@ class Driver extends Component {
     doubleCheckPickup: false,
     pickups: [],
   };
+
   componentDidMount() {
     this.pickupsRef = base.syncState('jackson', {
       context: this,
@@ -88,11 +89,11 @@ class Driver extends Component {
   }
 
   markPickupComplete = id => {
-    const {doubleCheckPickup} = this.state;
+    const {doubleCheckPickup, pickups} = this.state;
     if (doubleCheckPickup) {
-      const pickups = {...this.state.pickups};
-      pickups[id] = {...pickups[id], pickupComplete: true};
-      this.setState({pickups});
+      const newPickups = {...pickups};
+      newPickups[id] = {...newPickups[id], pickupComplete: true};
+      this.setState({pickups: newPickups});
     } else {
       this.setState({doubleCheckPickup: true});
     }
@@ -121,7 +122,7 @@ class Driver extends Component {
                     </div>
                   </Pickup>
                   <MarkComplete doubleCheckPickup={doubleCheckPickup}>
-                    <button onClick={() => this.markPickupComplete(Object.keys(pickups)[0])}>
+                    <button type="button" onClick={() => this.markPickupComplete(Object.keys(pickups)[0])}>
                       {doubleCheckPickup ? 'Pickup complete?' : 'Pickup'}
                     </button>
                   </MarkComplete>
@@ -130,7 +131,10 @@ class Driver extends Component {
             ) : (
               <NoMatches>
                 <p>
-                  No more pickups! <span>👏</span>
+                  No more pickups!{' '}
+                  <span role="img" aria-label="clapping emoji">
+                    👏
+                  </span>
                 </p>
               </NoMatches>
             )}
